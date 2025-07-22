@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "UGPhone LocalStorage Manager",
+  "version": "1.0",
+  "description": "Import dan manage localStorage untuk UGPhone dengan balloon SVG",
+  "permissions": [
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://*.ugphone.com/*",
+    "https://ugphone.com/*",
+    "http://*.ugphone.com/*",
+    "http://ugphone.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.ugphone.com/*",
+        "https://ugphone.com/*", 
+        "http://*.ugphone.com/*",
+        "http://ugphone.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["styles.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["img/*"],
+      "matches": [
+        "https://*.ugphone.com/*",
+        "https://ugphone.com/*",
+        "http://*.ugphone.com/*",
+        "http://ugphone.com/*"
+      ]
+    }
+  ],
+  "icons": {
+
+  }
+}

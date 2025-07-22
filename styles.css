@@ -1,0 +1,635 @@
+/* UGPhone Manager Extension Styles */
+
+/* Prevent page overflow and horizontal scroll */
+#ugphone-balloon,
+#ugphone-popup,
+#ugphone-popup * {
+    box-sizing: border-box !important;
+}
+
+/* Ensure no overflow */
+body:has(#ugphone-balloon) {
+    overflow-x: hidden !important;
+}
+
+/* Balloon SVG - Pojok Kanan Bawah */
+/* CUSTOM SIZE: Atur ukuran balon di sini (width dan height) */
+#ugphone-balloon {
+    position: fixed;
+    /* CUSTOM POSITION: Atur posisi balon di sini */
+    bottom: 80px; /* Nilai lebih besar = posisi lebih ke atas */
+    right: 20px;  /* Nilai lebih besar = posisi lebih ke kiri */
+    z-index: 999999;
+    cursor: pointer;
+    transform: translateY(100px) scale(0);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    user-select: none;
+    /* CUSTOM SIZE: Atur ukuran balon di sini */
+    width: 70px;  /* Ubah nilai ini sesuai keinginan */
+    height: 70px; /* Ubah nilai ini sesuai keinginan */
+    max-width: 300px;  /* Sudah diubah di content.js */
+    max-height: 300px; /* Sudah diubah di content.js */
+    pointer-events: auto;
+    contain: layout style;
+}
+
+#ugphone-balloon.show {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+#ugphone-balloon:hover {
+    transform: translateY(-8px) scale(1.1);
+    filter: drop-shadow(0 10px 20px rgba(102, 126, 234, 0.3));
+}
+
+#ugphone-balloon.active {
+    transform: translateY(-8px) scale(0.95);
+}
+
+/* CUSTOM SIZE: Atur ukuran container balon di sini */
+.balloon-container {
+    position: relative;
+    /* CUSTOM SIZE: Atur ukuran container balon di sini */
+    width: 70px;  /* Ubah nilai ini sesuai keinginan */
+    height: 70px; /* Ubah nilai ini sesuai keinginan */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* CUSTOM SIZE: Atur ukuran gambar balon di sini */
+.balloon-image {
+    position: relative;
+    z-index: 2;
+    /* CUSTOM SIZE: Atur ukuran gambar balon di sini */
+    width: 60px;  /* Ubah nilai ini sesuai keinginan */
+    height: 60px; /* Ubah nilai ini sesuai keinginan */
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.balloon-image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+    display: block !important;
+    transition: transform 0.3s ease !important;
+}
+
+#ugphone-balloon:hover .balloon-image img {
+    transform: scale(1.05);
+}
+
+/* CUSTOM SIZE: Atur ukuran efek pulse di sini */
+.balloon-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* CUSTOM SIZE: Atur ukuran efek pulse di sini */
+    width: 90px;  /* Ubah nilai ini sesuai keinginan (biasanya 20px lebih besar dari balon) */
+    height: 90px; /* Ubah nilai ini sesuai keinginan (biasanya 20px lebih besar dari balon) */
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse-ring 2s infinite;
+    z-index: 1;
+}
+
+/* Popup Panel */
+#ugphone-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+#ugphone-popup.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* CUSTOM POSITION: Atur posisi popup panel di sini */
+.popup-panel {
+    position: fixed;
+    bottom: 80px; /* Sesuaikan dengan posisi balon */
+    right: 20px;
+    width: calc(100vw - 40px);
+    max-width: 380px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transform: translateY(50px) scale(0.9);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    max-height: calc(100vh - 40px);
+}
+
+#ugphone-popup.show .popup-panel {
+    transform: translateY(0) scale(1);
+}
+
+/* Header */
+.popup-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+}
+
+.header-icon {
+    flex-shrink: 0;
+}
+
+.popup-header h2 {
+    flex: 1;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.close-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+/* Content */
+.popup-content {
+    padding: 25px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section:last-child {
+    margin-bottom: 0;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.section-header svg {
+    color: #667eea;
+}
+
+.section-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.section p {
+    color: #666;
+    font-size: 14px;
+    margin: 0 0 15px 0;
+    line-height: 1.5;
+}
+
+/* Textarea */
+.textarea-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+#localstorage-input {
+    width: 100%;
+    min-height: 120px;
+    padding: 15px;
+    border: 2px solid #e1e8ed;
+    border-radius: 12px;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
+    font-size: 13px;
+    resize: vertical;
+    background: #f8fafc;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    color: #333;
+    line-height: 1.4;
+}
+
+#localstorage-input:focus {
+    outline: none;
+    border-color: #667eea;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+#localstorage-input::placeholder {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    width: 100%;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover:before {
+    left: 100%;
+}
+
+.btn-import {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-import:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.btn-logout {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+}
+
+.btn-logout:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+}
+
+.btn-promo {
+    background: linear-gradient(135deg, #38b2ac 0%, #0694a2 100%);
+    color: white;
+    margin-top: 10px;
+}
+
+.btn-promo:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(56, 178, 172, 0.3);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Loading State */
+.btn.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.btn.loading svg {
+    animation: spin 1s linear infinite;
+}
+
+/* Section Divider */
+.section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e1e8ed, transparent);
+    margin: 25px 0;
+    position: relative;
+}
+
+.section-divider:before {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    background: #f1f5f9;
+    border: 2px solid #e1e8ed;
+    border-radius: 50%;
+}
+
+/* Status Bar */
+.status-bar {
+    background: #f8fafc;
+    border-top: 1px solid #e1e8ed;
+    padding: 15px 25px;
+    transform: translateY(100%);
+    transition: all 0.3s ease;
+}
+
+.status-bar.show {
+    transform: translateY(0);
+}
+
+.status-bar.success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.status-bar.error {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+}
+
+.status-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+/* Promo Section */
+.section a {
+    transition: all 0.2s ease;
+}
+
+.section a:hover {
+    text-decoration: underline !important;
+    opacity: 0.8;
+}
+
+@keyframes highlight-promo {
+    0% {
+        background-color: transparent;
+    }
+    50% {
+        background-color: rgba(56, 178, 172, 0.05);
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
+.section:has(.btn-promo) {
+    animation: highlight-promo 3s ease-in-out infinite;
+    border-radius: 8px;
+    padding: 8px;
+    margin: -8px;
+}
+
+/* Animations */
+@keyframes pulse-ring {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.4);
+        opacity: 0;
+    }
+}
+
+@keyframes spin {
+    to { 
+        transform: rotate(360deg); 
+    }
+}
+
+/* Responsive Mobile First */
+@media (max-width: 480px) {
+    /* CUSTOM SIZE MOBILE: Atur ukuran balon untuk layar mobile di sini */
+    #ugphone-balloon {
+        /* CUSTOM POSITION MOBILE: Atur posisi balon untuk mobile di sini */
+        bottom: 60px; /* Nilai lebih besar = posisi lebih ke atas */
+        right: 15px;  /* Nilai lebih besar = posisi lebih ke kiri */
+        width: 60px;  /* Ukuran untuk mobile (lebih kecil) */
+        height: 60px; /* Ukuran untuk mobile (lebih kecil) */
+        max-width: 60px;
+        max-height: 60px;
+    }
+    
+    .balloon-container {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .balloon-image {
+        width: 60px;
+        height: 60px;
+        border-width: 2px;
+    }
+    
+    .balloon-pulse {
+        width: 80px;
+        height: 80px;
+    }
+    
+    /* CUSTOM POSITION MOBILE: Atur posisi popup panel untuk mobile di sini */
+    .popup-panel {
+        bottom: 50px; /* Sesuaikan dengan posisi balon mobile */
+        right: 15px;
+        left: 15px;
+        width: calc(100vw - 30px);
+        max-width: none;
+        max-height: calc(100vh - 30px);
+        border-radius: 12px;
+    }
+    
+    .popup-content {
+        padding: 18px;
+    }
+    
+    .popup-header {
+        padding: 15px 18px;
+    }
+    
+    #localstorage-input {
+        min-height: 90px;
+        font-size: 12px;
+        padding: 12px;
+    }
+    
+    .btn {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+    /* CUSTOM SIZE SMALL MOBILE: Atur ukuran balon untuk layar sangat kecil di sini */
+    #ugphone-balloon {
+        /* CUSTOM POSITION SMALL MOBILE: Atur posisi balon untuk layar sangat kecil di sini */
+        bottom: 50px; /* Nilai lebih besar = posisi lebih ke atas */
+        right: 12px;  /* Nilai lebih besar = posisi lebih ke kiri */
+        width: 50px;  /* Ukuran untuk layar sangat kecil */
+        height: 50px; /* Ukuran untuk layar sangat kecil */
+        max-width: 50px;
+        max-height: 50px;
+    }
+    
+    .balloon-container {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .balloon-image {
+        width: 50px;
+        height: 50px;
+        border-width: 1px;
+    }
+    
+    .balloon-pulse {
+        width: 70px;
+        height: 70px;
+    }
+    
+    /* CUSTOM POSITION SMALL MOBILE: Atur posisi popup panel untuk layar sangat kecil di sini */
+    .popup-panel {
+        bottom: 50px; /* Sesuaikan dengan posisi balon untuk layar sangat kecil */
+        right: 12px;
+        left: 12px;
+        width: calc(100vw - 24px);
+        max-height: calc(100vh - 24px);
+    }
+    
+    .popup-content {
+        padding: 15px;
+    }
+    
+    .popup-header {
+        padding: 12px 15px;
+    }
+    
+    .popup-header h2 {
+        font-size: 16px;
+    }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .balloon-svg svg {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .popup-panel {
+        background: #1f2937;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .popup-content {
+        color: #f9fafb;
+    }
+    
+    .section-header {
+        color: #f9fafb;
+    }
+    
+    .section p {
+        color: #d1d5db;
+    }
+    
+    #localstorage-input {
+        background: #374151;
+        border-color: #4b5563;
+        color: #f9fafb;
+    }
+    
+    #localstorage-input:focus {
+        background: #1f2937;
+        border-color: #667eea;
+    }
+    
+    .section-divider {
+        background: linear-gradient(90deg, transparent, #4b5563, transparent);
+    }
+    
+    .section-divider:before {
+        background: #1f2937;
+        border-color: #4b5563;
+    }
+    
+    .status-bar {
+        background: #374151;
+        border-color: #4b5563;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .balloon-pulse {
+        animation: none;
+    }
+}
